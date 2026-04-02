@@ -49,6 +49,7 @@ let aestheticSelected = [];
 /* ── DOM Refs ───────────────────────────────────────────────── */
 
 const outputTextarea       = document.getElementById('outputTextarea');
+const outputLabel          = document.getElementById('outputLabel');
 const copyBtn              = document.getElementById('copyBtn');
 const clearBtn             = document.getElementById('clearBtn');
 const historyToggle        = document.getElementById('historyToggle');
@@ -177,6 +178,16 @@ function assemblePrompt() {
 function updateOutput() {
   const prompt = assemblePrompt();
   outputTextarea.value = prompt;
+
+  /* Auto-grow: reset then expand to fit content */
+  outputTextarea.style.height = 'auto';
+  outputTextarea.style.height = outputTextarea.scrollHeight + 'px';
+
+  /* Live character count in label */
+  const count = prompt.length;
+  outputLabel.textContent = count > 0
+    ? `Generated Prompt · ${count} chars`
+    : 'Generated Prompt';
 }
 
 /* ── Chip Logic ─────────────────────────────────────────────── */

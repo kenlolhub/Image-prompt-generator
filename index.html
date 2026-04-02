@@ -17,199 +17,204 @@
     <span class="site-subtitle">Image Prompt Generator</span>
   </header>
 
-  <!-- Sticky output bar -->
-  <div class="output-bar" id="outputBar">
-    <div class="output-label">Generated Prompt</div>
-    <div class="output-row">
-      <textarea class="output-textarea" id="outputTextarea" readonly placeholder="Your prompt will appear here as you fill in the fields below..."></textarea>
-      <button class="copy-btn" id="copyBtn" aria-label="Copy prompt to clipboard">Copy</button>
-    </div>
-  </div>
+  <div class="app-layout">
 
-  <!-- Main form -->
-  <main class="main-content">
+    <!-- Output panel (left on desktop, top on mobile) -->
+    <aside class="output-panel">
+      <div class="output-label" id="outputLabel">Generated Prompt</div>
+      <textarea
+        class="output-textarea"
+        id="outputTextarea"
+        readonly
+        placeholder="Your prompt will appear here as you fill in the fields below..."
+      ></textarea>
+      <div class="output-actions">
+        <button class="copy-btn" id="copyBtn" aria-label="Copy prompt to clipboard">Copy</button>
+        <button class="clear-btn-panel" id="clearBtn" aria-label="Clear all fields">Clear</button>
+      </div>
 
-    <!-- C — Character -->
-    <section class="canvas-field" id="field-character">
-      <div class="field-label">
-        <span class="field-letter">C</span>
-        <span class="field-name">Character</span>
-        <span class="field-hint">Who or what is the main subject?</span>
+      <!-- History panel -->
+      <div class="history-panel" id="historyPanel">
+        <button class="history-toggle" id="historyToggle" aria-expanded="false">
+          <span class="history-toggle-icon">›</span>
+          <span id="historyToggleLabel">History</span>
+        </button>
+        <div class="history-list" id="historyList" hidden></div>
       </div>
-      <input
-        type="text"
-        class="field-input animated-placeholder"
-        id="input-character"
-        data-field="character"
-        maxlength="200"
-        autocomplete="off"
-      />
-    </section>
+    </aside>
 
-    <!-- A — Action -->
-    <section class="canvas-field" id="field-action">
-      <div class="field-label">
-        <span class="field-letter">A</span>
-        <span class="field-name">Action</span>
-        <span class="field-hint">What is the subject doing?</span>
-      </div>
-      <input
-        type="text"
-        class="field-input animated-placeholder"
-        id="input-action"
-        data-field="action"
-        maxlength="200"
-        autocomplete="off"
-      />
-    </section>
+    <!-- Main form (right on desktop, bottom on mobile) -->
+    <main class="main-content">
 
-    <!-- N — Narrative Context -->
-    <section class="canvas-field" id="field-narrative">
-      <div class="field-label">
-        <span class="field-letter">N</span>
-        <span class="field-name">Narrative Context</span>
-        <span class="field-hint">Where is it, and what is the surrounding environment?</span>
-      </div>
-      <input
-        type="text"
-        class="field-input animated-placeholder"
-        id="input-narrative"
-        data-field="narrative"
-        maxlength="200"
-        autocomplete="off"
-      />
-    </section>
-
-    <!-- V — Viewpoint -->
-    <section class="canvas-field" id="field-viewpoint">
-      <div class="field-label">
-        <span class="field-letter">V</span>
-        <span class="field-name">Viewpoint</span>
-        <span class="field-hint">Camera angle, shot type, framing, distance, focus.</span>
-      </div>
-      <div class="chip-grid" id="chips-viewpoint" role="group" aria-label="Viewpoint options">
-        <button class="chip" data-group="viewpoint" data-value="close-up">Close-up</button>
-        <button class="chip" data-group="viewpoint" data-value="extreme close-up">Extreme close-up</button>
-        <button class="chip" data-group="viewpoint" data-value="medium shot">Medium shot</button>
-        <button class="chip" data-group="viewpoint" data-value="full body">Full body</button>
-        <button class="chip" data-group="viewpoint" data-value="wide shot">Wide shot</button>
-        <button class="chip" data-group="viewpoint" data-value="aerial, bird's-eye view">Aerial / bird's-eye</button>
-        <button class="chip" data-group="viewpoint" data-value="low angle">Low angle</button>
-        <button class="chip" data-group="viewpoint" data-value="high angle">High angle</button>
-        <button class="chip" data-group="viewpoint" data-value="over-the-shoulder">Over-the-shoulder</button>
-        <button class="chip" data-group="viewpoint" data-value="POV, first-person perspective">POV</button>
-        <button class="chip" data-group="viewpoint" data-value="dutch angle">Dutch angle</button>
-        <button class="chip" data-group="viewpoint" data-value="portrait, centered composition">Portrait / centered</button>
-        <button class="chip" data-group="viewpoint" data-value="rule of thirds composition">Rule of thirds</button>
-        <button class="chip" data-group="viewpoint" data-value="silhouette against background">Silhouette</button>
-      </div>
-      <div class="manual-input-row">
-        <span class="manual-input-prefix">+</span>
+      <!-- C — Character -->
+      <section class="canvas-field" id="field-character">
+        <div class="field-label">
+          <span class="field-letter">C</span>
+          <span class="field-name">Character</span>
+          <span class="field-hint">Who or what is the main subject?</span>
+        </div>
         <input
           type="text"
-          class="field-input-small"
-          id="input-viewpoint-manual"
-          data-field="viewpoint-manual"
-          placeholder="Add your own framing..."
-          maxlength="100"
+          class="field-input animated-placeholder"
+          id="input-character"
+          data-field="character"
+          maxlength="200"
           autocomplete="off"
         />
-      </div>
-    </section>
+      </section>
 
-    <!-- A — Aesthetic -->
-    <section class="canvas-field" id="field-aesthetic">
-      <div class="field-label">
-        <span class="field-letter">A</span>
-        <span class="field-name">Aesthetic</span>
-        <span class="field-hint">Visual style, medium, mood, lighting, texture, era. Pick up to 3.</span>
-      </div>
-
-      <div class="chip-category-label">Style &amp; Medium</div>
-      <div class="chip-grid" id="chips-aesthetic" role="group" aria-label="Aesthetic options">
-        <button class="chip" data-group="aesthetic" data-value="cinematic">Cinematic</button>
-        <button class="chip" data-group="aesthetic" data-value="watercolor painting">Watercolor</button>
-        <button class="chip" data-group="aesthetic" data-value="oil painting">Oil painting</button>
-        <button class="chip" data-group="aesthetic" data-value="ink sketch">Ink sketch</button>
-        <button class="chip" data-group="aesthetic" data-value="digital art">Digital art</button>
-        <button class="chip" data-group="aesthetic" data-value="film photography">Film photography</button>
-
-        <div class="chip-category-break"></div>
-        <div class="chip-category-label chip-category-label--inline">Mood &amp; Tone</div>
-        <div class="chip-category-break"></div>
-
-        <button class="chip" data-group="aesthetic" data-value="melancholic mood">Melancholic</button>
-        <button class="chip" data-group="aesthetic" data-value="dreamy atmosphere">Dreamy</button>
-        <button class="chip" data-group="aesthetic" data-value="bold and graphic">Bold &amp; graphic</button>
-        <button class="chip" data-group="aesthetic" data-value="serene and calm">Serene</button>
-        <button class="chip" data-group="aesthetic" data-value="gritty texture">Gritty</button>
-
-        <div class="chip-category-break"></div>
-        <div class="chip-category-label chip-category-label--inline">Lighting</div>
-        <div class="chip-category-break"></div>
-
-        <button class="chip" data-group="aesthetic" data-value="golden hour lighting">Golden hour</button>
-        <button class="chip" data-group="aesthetic" data-value="studio lighting">Studio lit</button>
-        <button class="chip" data-group="aesthetic" data-value="soft diffused light">Soft diffused</button>
-        <button class="chip" data-group="aesthetic" data-value="high contrast lighting">High contrast</button>
-
-        <div class="chip-category-break"></div>
-        <div class="chip-category-label chip-category-label--inline">Era &amp; Finish</div>
-        <div class="chip-category-break"></div>
-
-        <button class="chip" data-group="aesthetic" data-value="vintage, retro aesthetic">Vintage / retro</button>
-        <button class="chip" data-group="aesthetic" data-value="minimalist style">Minimalist</button>
-        <button class="chip" data-group="aesthetic" data-value="hyperrealistic">Hyperrealistic</button>
-      </div>
-
-      <div class="aesthetic-counter" id="aestheticCounter" aria-live="polite">0 / 3 selected</div>
-
-      <div class="manual-input-row">
-        <span class="manual-input-prefix">+</span>
+      <!-- A — Action -->
+      <section class="canvas-field" id="field-action">
+        <div class="field-label">
+          <span class="field-letter">A</span>
+          <span class="field-name">Action</span>
+          <span class="field-hint">What is the subject doing?</span>
+        </div>
         <input
           type="text"
-          class="field-input-small"
-          id="input-aesthetic-manual"
-          data-field="aesthetic-manual"
-          placeholder="Describe your own style..."
-          maxlength="100"
+          class="field-input animated-placeholder"
+          id="input-action"
+          data-field="action"
+          maxlength="200"
           autocomplete="off"
         />
-      </div>
-    </section>
+      </section>
 
-    <!-- S — Safeguards -->
-    <section class="canvas-field" id="field-safeguards">
-      <div class="field-label">
-        <span class="field-letter">S</span>
-        <span class="field-name">Safeguards</span>
-        <span class="field-hint">What should be avoided, reduced, or kept under control?</span>
-      </div>
-      <input
-        type="text"
-        class="field-input animated-placeholder"
-        id="input-safeguards"
-        data-field="safeguards"
-        maxlength="200"
-        autocomplete="off"
-      />
-    </section>
+      <!-- N — Narrative Context -->
+      <section class="canvas-field" id="field-narrative">
+        <div class="field-label">
+          <span class="field-letter">N</span>
+          <span class="field-name">Narrative Context</span>
+          <span class="field-hint">Where is it, and what is the surrounding environment?</span>
+        </div>
+        <input
+          type="text"
+          class="field-input animated-placeholder"
+          id="input-narrative"
+          data-field="narrative"
+          maxlength="200"
+          autocomplete="off"
+        />
+      </section>
 
-    <!-- Clear all -->
-    <div class="actions-row">
-      <button class="clear-btn" id="clearBtn">Clear all fields</button>
-    </div>
+      <!-- V — Viewpoint -->
+      <section class="canvas-field" id="field-viewpoint">
+        <div class="field-label">
+          <span class="field-letter">V</span>
+          <span class="field-name">Viewpoint</span>
+          <span class="field-hint">Camera angle, shot type, framing, distance, focus.</span>
+        </div>
+        <div class="chip-grid" id="chips-viewpoint" role="group" aria-label="Viewpoint options">
+          <button class="chip" data-group="viewpoint" data-value="close-up">Close-up</button>
+          <button class="chip" data-group="viewpoint" data-value="extreme close-up">Extreme close-up</button>
+          <button class="chip" data-group="viewpoint" data-value="medium shot">Medium shot</button>
+          <button class="chip" data-group="viewpoint" data-value="full body">Full body</button>
+          <button class="chip" data-group="viewpoint" data-value="wide shot">Wide shot</button>
+          <button class="chip" data-group="viewpoint" data-value="aerial, bird's-eye view">Aerial / bird's-eye</button>
+          <button class="chip" data-group="viewpoint" data-value="low angle">Low angle</button>
+          <button class="chip" data-group="viewpoint" data-value="high angle">High angle</button>
+          <button class="chip" data-group="viewpoint" data-value="over-the-shoulder">Over-the-shoulder</button>
+          <button class="chip" data-group="viewpoint" data-value="POV, first-person perspective">POV</button>
+          <button class="chip" data-group="viewpoint" data-value="dutch angle">Dutch angle</button>
+          <button class="chip" data-group="viewpoint" data-value="portrait, centered composition">Portrait / centered</button>
+          <button class="chip" data-group="viewpoint" data-value="rule of thirds composition">Rule of thirds</button>
+          <button class="chip" data-group="viewpoint" data-value="silhouette against background">Silhouette</button>
+        </div>
+        <div class="manual-input-row">
+          <span class="manual-input-prefix">+</span>
+          <input
+            type="text"
+            class="field-input-small"
+            id="input-viewpoint-manual"
+            data-field="viewpoint-manual"
+            placeholder="Add your own framing..."
+            maxlength="100"
+            autocomplete="off"
+          />
+        </div>
+      </section>
 
-  </main>
+      <!-- A — Aesthetic -->
+      <section class="canvas-field" id="field-aesthetic">
+        <div class="field-label">
+          <span class="field-letter">A</span>
+          <span class="field-name">Aesthetic</span>
+          <span class="field-hint">Visual style, medium, mood, lighting, texture, era. Pick up to 3.</span>
+        </div>
 
-  <!-- History panel -->
-  <div class="history-panel" id="historyPanel">
-    <button class="history-toggle" id="historyToggle" aria-expanded="false">
-      <span class="history-toggle-icon">›</span>
-      <span id="historyToggleLabel">History</span>
-    </button>
-    <div class="history-list" id="historyList" hidden></div>
-  </div>
+        <div class="chip-category-label">Style &amp; Medium</div>
+        <div class="chip-grid" id="chips-aesthetic" role="group" aria-label="Aesthetic options">
+          <button class="chip" data-group="aesthetic" data-value="cinematic">Cinematic</button>
+          <button class="chip" data-group="aesthetic" data-value="watercolor painting">Watercolor</button>
+          <button class="chip" data-group="aesthetic" data-value="oil painting">Oil painting</button>
+          <button class="chip" data-group="aesthetic" data-value="ink sketch">Ink sketch</button>
+          <button class="chip" data-group="aesthetic" data-value="digital art">Digital art</button>
+          <button class="chip" data-group="aesthetic" data-value="film photography">Film photography</button>
+
+          <div class="chip-category-break"></div>
+          <div class="chip-category-label chip-category-label--inline">Mood &amp; Tone</div>
+          <div class="chip-category-break"></div>
+
+          <button class="chip" data-group="aesthetic" data-value="melancholic mood">Melancholic</button>
+          <button class="chip" data-group="aesthetic" data-value="dreamy atmosphere">Dreamy</button>
+          <button class="chip" data-group="aesthetic" data-value="bold and graphic">Bold &amp; graphic</button>
+          <button class="chip" data-group="aesthetic" data-value="serene and calm">Serene</button>
+          <button class="chip" data-group="aesthetic" data-value="gritty texture">Gritty</button>
+
+          <div class="chip-category-break"></div>
+          <div class="chip-category-label chip-category-label--inline">Lighting</div>
+          <div class="chip-category-break"></div>
+
+          <button class="chip" data-group="aesthetic" data-value="golden hour lighting">Golden hour</button>
+          <button class="chip" data-group="aesthetic" data-value="studio lighting">Studio lit</button>
+          <button class="chip" data-group="aesthetic" data-value="soft diffused light">Soft diffused</button>
+          <button class="chip" data-group="aesthetic" data-value="high contrast lighting">High contrast</button>
+
+          <div class="chip-category-break"></div>
+          <div class="chip-category-label chip-category-label--inline">Era &amp; Finish</div>
+          <div class="chip-category-break"></div>
+
+          <button class="chip" data-group="aesthetic" data-value="vintage, retro aesthetic">Vintage / retro</button>
+          <button class="chip" data-group="aesthetic" data-value="minimalist style">Minimalist</button>
+          <button class="chip" data-group="aesthetic" data-value="hyperrealistic">Hyperrealistic</button>
+        </div>
+
+        <div class="aesthetic-counter" id="aestheticCounter" aria-live="polite">0 / 3 selected</div>
+
+        <div class="manual-input-row">
+          <span class="manual-input-prefix">+</span>
+          <input
+            type="text"
+            class="field-input-small"
+            id="input-aesthetic-manual"
+            data-field="aesthetic-manual"
+            placeholder="Describe your own style..."
+            maxlength="100"
+            autocomplete="off"
+          />
+        </div>
+      </section>
+
+      <!-- S — Safeguards -->
+      <section class="canvas-field" id="field-safeguards">
+        <div class="field-label">
+          <span class="field-letter">S</span>
+          <span class="field-name">Safeguards</span>
+          <span class="field-hint">What should be avoided, reduced, or kept under control?</span>
+        </div>
+        <input
+          type="text"
+          class="field-input animated-placeholder"
+          id="input-safeguards"
+          data-field="safeguards"
+          maxlength="200"
+          autocomplete="off"
+        />
+      </section>
+
+    </main>
+
+  </div><!-- /.app-layout -->
 
   <!-- Footer -->
   <footer class="site-footer">
